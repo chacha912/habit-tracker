@@ -21,35 +21,22 @@ describe('HabitPresenter', () => {
     presenter.increment(habits[0], update);
 
     expect(presenter.getHabits()[0].count).toBe(2);
-    expect(update).toHaveBeenCalledTimes(1);
-    expect(update).toHaveBeenCalledWith(presenter.getHabits());
+    checkUpdateIsCalled();
   });
 
   describe('decrement', () => {
-    it('regular', () => {
+    it('decrements habit count and call update callback', () => {
       presenter.decrement(habits[0], update);
 
-      expect(presenter.getHabits()).toEqual(
-        habits.map((habit) => {
-          if (habit.id === 1) return { ...habit, count: habit.count - 1 };
-          return habit;
-        })
-      );
-
-      expect(update).toHaveBeenCalledTimes(1);
+      expect(presenter.getHabits()[0].count).toBe(0);
+      checkUpdateIsCalled();
     });
 
-    it('minus', () => {
-      presenter.decrement(habits[1], update);
+    it('does not set the count value below 0 when decrements', () => {
+      presenter.decrement(habits[0], update);
+      presenter.decrement(habits[0], update);
 
-      expect(presenter.getHabits()).toEqual(
-        habits.map((habit) => {
-          if (habit.id === 2) return { ...habit, count: 0 };
-          return habit;
-        })
-      );
-
-      expect(update).toHaveBeenCalledTimes(1);
+      expect(presenter.getHabits()[0].count).toBe(0);
     });
   });
 
@@ -83,4 +70,9 @@ describe('HabitPresenter', () => {
 
     expect(update).toHaveBeenCalledTimes(1);
   });
+
+  function checkUpdateIsCalled() {
+    expect(update).toHaveBeenCalledTimes(1);
+    expect(update).toHaveBeenCalledWith(presenter.getHabits());
+  }
 });
