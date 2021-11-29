@@ -1,32 +1,28 @@
 import HabitPresenter from '../habit_presenter';
 
 describe('HabitPresenter', () => {
-  let habitPresenter;
   const habits = [
     { id: 1, name: 'first-habit', count: 1 },
     { id: 2, name: 'second-habit', count: 0 },
   ];
+  let habitPresenter;
   let callBackFn;
+
   beforeEach(() => {
     callBackFn = jest.fn();
     habitPresenter = new HabitPresenter(habits);
   });
 
-  it('gets habits', () => {
+  it('inits with habits', () => {
     expect(habitPresenter.getHabits()).toEqual(habits);
   });
 
-  it('increment', () => {
+  it('increments habit count and call update callback', () => {
     habitPresenter.increment(habits[0], callBackFn);
 
-    expect(habitPresenter.getHabits()).toEqual(
-      habits.map((habit) => {
-        if (habit.id === 1) return { ...habit, count: habit.count + 1 };
-        return habit;
-      })
-    );
-
+    expect(habitPresenter.getHabits()[0].count).toBe(2);
     expect(callBackFn).toHaveBeenCalledTimes(1);
+    expect(callBackFn).toHaveBeenCalledWith(habitPresenter.getHabits());
   });
 
   describe('decrement', () => {
