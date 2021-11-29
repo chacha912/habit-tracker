@@ -2,8 +2,9 @@
 // MVP (model, view, presenter) 패턴 중 Presenter 만 사용해봄
 
 export default class HabitPresenter {
-  constructor(habits) {
+  constructor(habits, maxHabits) {
     this.habits = habits;
+    this.maxHabits = maxHabits;
   }
 
   getHabits() {
@@ -41,6 +42,11 @@ export default class HabitPresenter {
   }
 
   add(name, update) {
+    if (this.habits.length === this.maxHabits) {
+      throw new Error(
+        `습관의 갯수는 ${this.maxHabits} 이상이 될 수 없습니다. `
+      );
+    }
     this.habits = [...this.habits, { id: Date.now(), name, count: 0 }];
     update(this.habits);
   }
