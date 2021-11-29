@@ -40,35 +40,28 @@ describe('HabitPresenter', () => {
     });
   });
 
-  it('delete', () => {
+  it('deletes habit from the list and call update callback', () => {
     presenter.delete(habits[0], update);
 
-    expect(presenter.getHabits()).toEqual(
-      habits.filter((habit) => habit.id !== 1)
-    );
-
-    expect(update).toHaveBeenCalledTimes(1);
+    expect(presenter.getHabits().length).toBe(1);
+    expect(presenter.getHabits()[0].name).toBe('second-habit');
+    checkUpdateIsCalled();
   });
 
-  it('add', () => {
+  it('adds new habit to the list and call update callback', () => {
     presenter.add('new-habit', update);
 
-    expect(presenter.getHabits()).toEqual([
-      ...habits,
-      { id: Date.now(), name: 'new-habit', count: 0 },
-    ]);
-
-    expect(update).toHaveBeenCalledTimes(1);
+    expect(presenter.getHabits()[2].name).toBe('new-habit');
+    expect(presenter.getHabits()[2].count).toBe(0);
+    checkUpdateIsCalled();
   });
 
-  it('reset', () => {
+  it('resets all habit counts to 0 and call update callback', () => {
     presenter.reset(update);
 
-    expect(presenter.getHabits()).toEqual(
-      habits.map((habit) => ({ ...habit, count: 0 }))
-    );
-
-    expect(update).toHaveBeenCalledTimes(1);
+    expect(presenter.getHabits()[0].count).toBe(0);
+    expect(presenter.getHabits()[1].count).toBe(0);
+    checkUpdateIsCalled();
   });
 
   function checkUpdateIsCalled() {
