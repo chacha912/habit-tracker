@@ -64,12 +64,21 @@ describe('HabitPresenter', () => {
     }).toThrow('습관의 갯수는 3 이상이 될 수 없습니다. ');
   });
 
-  it('resets all habit counts to 0 and call update callback', () => {
-    presenter.reset(update);
+  describe('reset', () => {
+    it('set all habit counts to 0 and call update callback', () => {
+      presenter.reset(update);
 
-    expect(presenter.getHabits()[0].count).toBe(0);
-    expect(presenter.getHabits()[1].count).toBe(0);
-    checkUpdateIsCalled();
+      expect(presenter.getHabits()[0].count).toBe(0);
+      expect(presenter.getHabits()[1].count).toBe(0);
+      checkUpdateIsCalled();
+    });
+
+    it('does not create new object when count is 0', () => {
+      const habits = presenter.getHabits();
+      presenter.reset(update);
+
+      expect(presenter.getHabits()[1]).toBe(habits[1]);
+    });
   });
 
   function checkUpdateIsCalled() {
