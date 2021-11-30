@@ -44,20 +44,26 @@ describe('Habit Tracker', () => {
 
   context('habit', () => {
     it('can increase count', () => {
-      cy.get('[title=increase]').first().click();
-      cy.get('[data-testid=habit-count').first().should('have.text', 1);
+      cy.findAllByTitle('increase').first().click();
+      cy.findAllByTestId('habit-count').first().should('have.text', 1);
     });
 
     it('can decrease count', () => {
-      cy.get('[title=increase]').first().click();
-      cy.get('[title=increase]').first().click();
-      cy.get('[title=decrease]').first().click();
-      cy.get('[data-testid=habit-count').first().should('have.text', 1);
+      cy.findAllByTitle('increase').first().click();
+      cy.findAllByTitle('increase').first().click();
+      cy.findAllByTitle('decrease').first().click();
+      cy.findAllByTestId('habit-count').first().should('have.text', 1);
     });
 
-    it('can decrease until 0 ', () => {
-      cy.get('[title=decrease]').first().click();
-      cy.get('[data-testid=habit-count').first().should('have.text', 0);
+    it('does not decrease below 0', () => {
+      cy.findAllByTitle('decrease').first().click();
+      cy.findAllByTestId('habit-count').first().should('have.text', 0);
+    });
+
+    it('shows active count on the header', () => {
+      cy.findAllByTitle('increase').first().click();
+      cy.findAllByTitle('increase').last().click();
+      cy.findByTestId('total-count').should('have.text', 2);
     });
 
     it('can delete ', () => {
