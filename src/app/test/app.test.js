@@ -46,20 +46,6 @@ describe('App', () => {
       expect(addedCount.innerHTML).toBe('0');
     });
 
-    it('adds new habit', () => {
-      const newHabit = 'New Habit';
-      const input = screen.getByPlaceholderText('Habit');
-      const button = screen.getByText('Add');
-
-      userEvent.type(input, newHabit);
-      userEvent.click(button);
-
-      const addedName = screen.getAllByTestId('habit-name')[3];
-      expect(addedName.innerHTML).toBe(newHabit);
-      const addedCount = screen.getAllByTestId('habit-count')[3];
-      expect(addedCount.innerHTML).toBe('0');
-    });
-
     it('deletes an item', () => {
       const first = screen.getAllByTitle('delete')[0];
       userEvent.click(first);
