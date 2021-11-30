@@ -25,11 +25,13 @@ exports[`Habits renders 1`] = `
     >
       <span
         className="habit-name"
+        data-testid="habit-name"
       >
         first-habit
       </span>
       <span
         className="habit-count"
+        data-testid="habit-count"
       >
         1
       </span>
@@ -66,11 +68,13 @@ exports[`Habits renders 1`] = `
     >
       <span
         className="habit-name"
+        data-testid="habit-name"
       >
         second-habit
       </span>
       <span
         className="habit-count"
+        data-testid="habit-count"
       >
         0
       </span>
