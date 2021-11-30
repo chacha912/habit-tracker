@@ -66,20 +66,22 @@ describe('Habit Tracker', () => {
       cy.findByTestId('total-count').should('have.text', 2);
     });
 
-    it('can delete ', () => {
-      cy.get('[title=delete]').first().click();
-
+    it('deletes an item', () => {
+      cy.findAllByTitle('delete').first().click();
+      cy.findAllByTestId('habit-name')
+        .findByText('Reading')
+        .should('not.exist');
       cy.get('.habits ul li').should('have.length', 2);
     });
 
-    it('can reset all habit counts', () => {
-      cy.get('[title=increase]').first().click();
-      cy.get('[title=increase]').first().click();
-      cy.get('[title=increase]').last().click();
-      cy.get('.habits-reset').click();
-      cy.get('.habit-count').then(($counts) => {
-        [...$counts].forEach(($count) => cy.get($count).should('have.text', 0));
-      });
+    it('can reset all habtsto 0 when clicking reset all', () => {
+      cy.findAllByTitle('increase').first().click();
+      cy.findAllByTitle('increase').first().click();
+      cy.findAllByTitle('increase').last().click();
+      cy.findByText('Reset All').click();
+      cy.findAllByTestId('habit-count').each((item) =>
+        cy.wrap(item).should('have.text', 0)
+      );
     });
   });
 });
