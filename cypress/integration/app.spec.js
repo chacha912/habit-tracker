@@ -18,7 +18,7 @@ describe('Habit Tracker', () => {
     cy.get('[data-testid=habit-name]').last().should('have.text', 'Coding');
   });
 
-  context('can add new habit', () => {
+  context('adds new habit at the end', () => {
     const newHabit = 'Exercise';
     it('by Enter', () => {
       cy.get('.add-input').type(`${newHabit}{enter}`);
@@ -29,12 +29,16 @@ describe('Habit Tracker', () => {
     });
 
     it('by Click', () => {
-      cy.get('.add-input').type(`${newHabit}`);
-      cy.get('.add-button').click();
-      cy.get('.habit-name')
+      cy.findByPlaceholderText('Habit').type(`${newHabit}`);
+      cy.findByText('Add').click();
+      cy.findAllByTestId('habit-name')
         .should('have.length', 4)
         .last()
         .should('have.text', newHabit);
+      cy.findAllByTestId('habit-count')
+        .should('have.length', 4)
+        .last()
+        .should('have.text', 0);
     });
   });
 
