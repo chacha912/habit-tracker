@@ -1,0 +1,21 @@
+name: Basic Test
+on:
+  push:
+    branches:
+      - 'main'
+
+jobs:
+
+  Basic-Test:
+    name: habit-tracker 유닛 & 컴포넌트 테스트
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout files
+        uses: actions/checkout@v2
+
+      - name: Install a project with a clean slate
+        run: npm ci
+
+      - name: Run tests
+        run: npm run test
